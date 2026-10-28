@@ -1,0 +1,37 @@
+# Ejemplo de GitHub Actions: se ejecuta en cada push y pull request.
+# 1) corre el script de ejemplo, 2) regenera las figuras animadas
+# y 3) comprueba que todos los SVG son XML válido.
+name: Verificar
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Ejecutar el script de ejemplo
+        run: python ejemplos/hola_github.py --nombre "GitHub Actions"
+
+      - name: Regenerar las figuras del README
+        run: python scripts/generar_svgs.py
+
+      - name: Validar los SVG
+        run: |
+          for f in assets/readme/*.svg; do
+            python -c "import sys, xml.dom.minidom as m; m.parse(sys.argv[1])" "$f"
+            echo "ok  $f"
+          done
+
+      - name: Comprobar que las figuras están al día
+        run: git diff --exit-code -- assets/readme/

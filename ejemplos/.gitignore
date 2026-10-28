@@ -1,0 +1,50 @@
+# Plantilla de .gitignore comentada
+# Copiar a la raíz de un proyecto y borrar lo que no aplique.
+# Cada línea es un patrón: los archivos que coincidan no se suben a GitHub.
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- R ---
+.Rhistory
+.RData
+.Rproj.user/
+
+# --- Credenciales y configuración local (NUNCA subir) ---
+.env
+*.key
+*.pem
+credenciales*.json
+config_local.*
+
+# --- Datos pesados (publicarlos en Zenodo, Figshare o el repositorio institucional) ---
+datos/
+*.tif
+*.tiff
+*.zip
+*.gpkg
+*.shp
+*.dbf
+*.shx
+*.prj
+*.nc
+*.h5
+
+# --- Resultados que se pueden regenerar ---
+salidas/
+*.log
+
+# --- Archivos del sistema y editores ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+~$*
+
+# --- Excepciones: el signo ! vuelve a incluir un archivo ---
+!datos/README.md
